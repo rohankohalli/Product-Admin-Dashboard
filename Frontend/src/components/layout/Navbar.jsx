@@ -1,0 +1,120 @@
+import React from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Package, LogOut, User, Store, ExternalLink } from 'lucide-react';
+import Button from '../common/Button';
+
+export default function Navbar({ user, onLogout }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    } else {
+      localStorage.removeItem('dummyjson_auth_token');
+      localStorage.removeItem('dummyjson_auth_user');
+      navigate('/login');
+    }
+  };
+
+  const isActive = (path) => location.pathname === path;
+
+  return (
+    <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-zinc-200/80 transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Brand Logo & Title */}
+          <div className="flex items-center gap-6">
+            <Link
+              to="/products"
+              className="flex items-center gap-2.5 text-zinc-900 group focus:outline-none"
+            >
+              <div className="w-9 h-9 rounded-lg bg-zinc-900 text-white flex items-center justify-center shadow-xs group-hover:bg-zinc-800 transition-colors">
+                <Package className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="font-semibold text-base tracking-tight text-zinc-900">
+                  ApexStore
+                </span>
+                <span className="hidden sm:inline-block ml-2 text-xs font-medium text-zinc-400 border border-zinc-200 rounded px-1.5 py-0.5">
+                  Admin
+                </span>
+              </div>
+            </Link>
+
+            {/* Nav links */}
+            <nav className="hidden md:flex items-center gap-1 pl-4 border-l border-zinc-200">
+              <Link
+                to="/products"
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  isActive('/products') || isActive('/')
+                    ? 'text-zinc-900 bg-zinc-100'
+                    : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50'
+                }`}
+              >
+                Products
+              </Link>
+              <a
+                href="https://dummyjson.com/docs/products"
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-1.5 text-sm font-medium text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 rounded-md transition-colors flex items-center gap-1.5"
+              >
+                API Docs
+                <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+              </a>
+            </nav>
+          </div>
+
+          {/* Right section: User info & Logout */}
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5 pl-2">
+                  {user.image ? (
+                    <img
+                      src={user.image}
+                      alt={user.firstName || user.username}
+                      className="w-8 h-8 rounded-full border border-zinc-200 object-cover bg-zinc-100"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-600 text-xs font-semibold">
+                      {user.firstName ? user.firstName[0] : 'U'}
+                    </div>
+                  )}
+                  <div className="hidden sm:block text-left">
+                    <p className="text-xs font-medium text-zinc-900 leading-tight">
+                      {user.firstName ? `${user.firstName} ${user.lastName || ''}` : user.username}
+                    </p>
+                    <p className="text-[11px] text-zinc-500 leading-tight">
+                      @{user.username}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="h-5 w-px bg-zinc-200 mx-1 hidden sm:block" />
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  icon={LogOut}
+                  className="text-zinc-600 hover:text-rose-600 hover:bg-rose-50"
+                  title="Sign out of dashboard"
+                >
+                  <span className="hidden sm:inline">Logout</span>
+                </Button>
+              </div>
+            ) : (
+              <Link to="/login">
+                <Button variant="secondary" size="sm" icon={User}>
+                  Sign In
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
