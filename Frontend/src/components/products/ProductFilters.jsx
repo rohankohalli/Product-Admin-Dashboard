@@ -46,9 +46,9 @@ export default function ProductFilters({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search by title, brand, or keyword..."
-            className="w-full pl-10 pr-9 py-2 text-sm bg-white border border-zinc-200 rounded-lg text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-500 shadow-2xs transition-all"
+            className="w-full pl-10 pr-12 py-2 text-sm bg-white border border-zinc-200/90 rounded-xl text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-400 shadow-2xs hover:border-zinc-300 transition-all"
           />
-          {searchQuery && (
+          {searchQuery ? (
             <button
               type="button"
               onClick={() => onSearchChange('')}
@@ -57,6 +57,12 @@ export default function ProductFilters({
             >
               <X className="w-4 h-4" />
             </button>
+          ) : (
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span className="text-[10px] font-medium text-zinc-400 border border-zinc-200 bg-zinc-50 rounded px-1.5 py-0.5">
+                ⌘K
+              </span>
+            </div>
           )}
         </div>
 
@@ -146,13 +152,12 @@ export default function ProductFilters({
             </Button>
           )}
 
-          {/* Add Product Button */}
           <Button
             variant="primary"
             size="md"
             onClick={onAddNewProduct}
             icon={Plus}
-            className="shadow-xs ml-auto sm:ml-0"
+            className="shadow-[0_1px_2px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.15)] ml-auto sm:ml-0 font-medium active:scale-[0.98] transition-all"
           >
             Add Product
           </Button>

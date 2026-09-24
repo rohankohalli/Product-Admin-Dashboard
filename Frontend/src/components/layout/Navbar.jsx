@@ -1,19 +1,16 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Package, LogOut, User, ExternalLink } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Package, LogOut, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
-
-  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-zinc-200/80 transition-all">
@@ -32,33 +29,9 @@ export default function Navbar() {
                 <span className="font-semibold text-base tracking-tight text-zinc-900">
                   AlphaStore
                 </span>
-                <span className="hidden sm:inline-block ml-2 text-xs font-medium text-zinc-400 border border-zinc-200 rounded px-1.5 py-0.5">
-                  Admin
-                </span>
+
               </div>
             </Link>
-
-            {/* Nav links */}
-            <nav className="hidden md:flex items-center gap-1 pl-4 border-l border-zinc-200">
-              <Link
-                to="/products"
-                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${isActive('/products') || isActive('/')
-                  ? 'text-zinc-900 bg-zinc-100'
-                  : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50'
-                  }`}
-              >
-                Products
-              </Link>
-              <a
-                href="https://dummyjson.com/docs/products"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-1.5 text-sm font-medium text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 rounded-md transition-colors flex items-center gap-1.5"
-              >
-                API Docs
-                <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-              </a>
-            </nav>
           </div>
 
           {/* Right section: User info & Logout */}
