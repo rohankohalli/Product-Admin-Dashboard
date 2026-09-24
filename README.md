@@ -1,28 +1,23 @@
-# Product Admin Dashboard 🛍️
-
+# Product Admin Dashboard
 A high-performance, handcrafted Admin Dashboard built with **React**, **JavaScript**, **Tailwind CSS**, and **Axios**, powered by the [DummyJSON API](https://dummyjson.com).
 
 Designed with a clean, tactile light theme, micro-interactions, responsive desktop/mobile views, URL query persistence, and zero external table/pagination libraries.
 
 ---
 
-## 🚀 Live Demo & Repository
+## Live Demo & Repository
 - **Live Deployment:** [Deployed on Vercel / Netlify](https://your-deployment-link.vercel.app) *(Replace with your live URL)*
 - **GitHub Repository:** [Product-Admin-Dashboard](https://github.com/rohankohalli/Product-Admin-Dashboard)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Framework & Runtime:** React 19 (JavaScript), Vite 8
-- **Styling & Design System:** Tailwind CSS v4 (Light theme, custom slate/zinc porcelain palette, tabular numbers)
-- **HTTP Client:** Axios (Centralized instance, JWT bearer request interceptor, centralized response error interceptor)
-- **Routing:** React Router v7 (Protected routes, dynamic params, HTML5 history URL search synchronization)
-- **Icons:** Lucide React
-- **Dependencies Rule:** Zero external table, query, or pagination libraries (built completely from scratch).
-
+- **Styling & Design System:** Tailwind CSS v4
+- **HTTP Client:** Axios
 ---
 
-## ✨ Features Completed
+## Features Completed
 
 ### 1. Authentication & Route Protection
 - **Login Page (`/login`):**

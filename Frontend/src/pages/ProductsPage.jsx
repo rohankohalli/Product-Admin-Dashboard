@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  RotateCcw, 
+import {
+  RotateCcw,
   AlertCircle,
   Package,
   Layers,
@@ -232,38 +232,11 @@ export default function ProductsPage() {
           <div>
             <span className="text-xs font-medium text-zinc-400 block">Categories</span>
             <span className="text-xl font-bold text-zinc-900 tabular-nums mt-0.5 block">
-              {categories.length || 24}
+              {categories.length}
             </span>
           </div>
           <div className="w-9 h-9 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
             <Layers className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Metric 3: Average Rating */}
-        <div className="bg-white border border-zinc-200/80 rounded-xl p-4 shadow-2xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-medium text-zinc-400 block">Avg Quality Rating</span>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-xl font-bold text-zinc-900 tabular-nums">4.52</span>
-              <span className="text-xs text-amber-500 font-semibold">★</span>
-            </div>
-          </div>
-          <div className="w-9 h-9 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
-            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-          </div>
-        </div>
-
-        {/* Metric 4: Stock Health */}
-        <div className="bg-white border border-zinc-200/80 rounded-xl p-4 shadow-2xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-medium text-zinc-400 block">Inventory Health</span>
-            <span className="text-xl font-bold text-emerald-600 tabular-nums mt-0.5 block">
-              98.2%
-            </span>
-          </div>
-          <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
-            <AlertTriangle className="w-4 h-4" />
           </div>
         </div>
       </div>

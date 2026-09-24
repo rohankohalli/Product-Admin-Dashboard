@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import Layout from './Layout';
 
 export default function ProtectedRoute() {
   const { isAuthenticated } = useAuth();
@@ -12,8 +11,6 @@ export default function ProtectedRoute() {
   }
 
   return (
-    <Layout>
-      <Outlet />
-    </Layout>
+    <Outlet />
   );
 }
