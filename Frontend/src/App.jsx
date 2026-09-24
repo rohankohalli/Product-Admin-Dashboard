@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProductStoreProvider } from './context/ProductStoreContext';
+import { ToastProvider } from './context/ToastContext';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import Layout from './components/layout/Layout';
 import LoginPage from './pages/LoginPage';
@@ -14,27 +15,20 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <ProductStoreProvider>
-          <Routes>
-            {/* Public Auth Route */}
-            <Route path="/login" element={<LoginPage />} />
+          <ToastProvider>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<Layout />}>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<Navigate to="/products" replace />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/products/:id" element={<ProductDetailPage />} />
+                </Route>
 
-            {/* Protected Dashboard Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<Navigate to="/products" replace />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/:id" element={<ProductDetailPage />} />
-            </Route>
-
-            {/* 404 Fallback Route */}
-            <Route
-              path="*"
-              element={
-                <Layout>
-                  <NotFoundPage />
-                </Layout>
-              }
-            />
-          </Routes>
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </ToastProvider>
         </ProductStoreProvider>
       </AuthProvider>
     </BrowserRouter>

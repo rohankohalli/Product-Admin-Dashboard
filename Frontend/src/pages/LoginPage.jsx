@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { 
-  Package, 
-  Lock, 
-  User, 
-  AlertCircle, 
-  Eye, 
-  EyeOff, 
+import {
+  Package,
+  Lock,
+  User,
+  AlertCircle,
+  Eye,
+  EyeOff,
   Sparkles,
   ArrowRight
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import Button from '../components/common/Button';
 
 export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [username, setUsername] = useState('emilys');
-  const [password, setPassword] = useState('emilyspass');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -45,11 +47,12 @@ export default function LoginPage() {
 
     try {
       await login(username.trim(), password.trim());
+      toast.success(`Welcome back, ${username.trim()}!`);
       navigate(from, { replace: true });
     } catch (err) {
-      setErrorMessage(
-        err.friendlyMessage || err.response?.data?.message || err.message || 'Invalid credentials. Please verify your login details.'
-      );
+      const msg = err.friendlyMessage || err.response?.data?.message || err.message || 'Invalid credentials. Please verify your login details.';
+      setErrorMessage(msg);
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -82,7 +85,7 @@ export default function LoginPage() {
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-indigo-600 shrink-0" />
               <div>
-                <p className="font-semibold">Assignment Demo Credentials</p>
+                <p className="font-semibold">Demo Credentials</p>
                 <p className="text-[11px] text-indigo-700 font-mono mt-0.5">
                   emilys / emilyspass
                 </p>
@@ -130,7 +133,7 @@ export default function LoginPage() {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="e.g. emilys"
+                  placeholder="Username"
                   disabled={isSubmitting}
                   className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-500 disabled:opacity-50 transition-all shadow-2xs"
                 />
@@ -157,7 +160,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="********"
                   disabled={isSubmitting}
                   className="w-full pl-9 pr-10 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-500 disabled:opacity-50 transition-all shadow-2xs"
                 />

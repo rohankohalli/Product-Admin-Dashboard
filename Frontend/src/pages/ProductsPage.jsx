@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   RotateCcw, 
-  AlertCircle, 
-  CheckCircle2,
+  AlertCircle,
   Package,
   Layers,
   Star,
   AlertTriangle
 } from 'lucide-react';
 import { useProductStore } from '../context/ProductStoreContext';
+import { useToast } from '../context/ToastContext';
 import { useQueryParams } from '../hooks/useQueryParams';
 import { useDebounce } from '../hooks/useDebounce';
 import ProductFilters from '../components/products/ProductFilters';
@@ -28,6 +28,8 @@ export default function ProductsPage() {
     deleteProduct,
   } = useProductStore();
 
+  const { toast } = useToast();
+
   const { params, setParams } = useQueryParams();
   const { page, limit, q, category, sortBy, order } = params;
 
@@ -42,9 +44,6 @@ export default function ProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [error, setError] = useState(null);
-
-  // Success toast / feedback notification
-  const [toastMessage, setToastMessage] = useState(null);
 
   // Modal states
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -69,14 +68,6 @@ export default function ProductsPage() {
   useEffect(() => {
     setSearchInput(q);
   }, [q]);
-
-  // Show temporary toast
-  const showToast = useCallback((msg) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3500);
-  }, []);
 
   // Fetch Categories once on mount
   useEffect(() => {
@@ -175,15 +166,15 @@ export default function ProductsPage() {
     try {
       if (editingProduct) {
         await updateProduct(editingProduct.id, formData);
-        showToast(`Successfully updated "${formData.title}"`);
+        toast.success(`Successfully updated "${formData.title}"`);
       } else {
         await createProduct(formData);
-        showToast(`Successfully created "${formData.title}"`);
+        toast.success(`Successfully created "${formData.title}"`);
       }
       setIsFormOpen(false);
       loadProducts();
     } catch (err) {
-      alert(`Error saving product: ${err.message}`);
+      toast.error(`Error saving product: ${err.message}`);
     } finally {
       setIsSubmittingForm(false);
     }
@@ -198,11 +189,11 @@ export default function ProductsPage() {
     setIsDeleting(true);
     try {
       await deleteProduct(deletingProduct.id);
-      showToast(`Deleted "${deletingProduct.title}"`);
+      toast.success(`Deleted "${deletingProduct.title}"`);
       setDeletingProduct(null);
       loadProducts();
     } catch (err) {
-      alert(`Error deleting product: ${err.message}`);
+      toast.error(`Error deleting product: ${err.message}`);
     } finally {
       setIsDeleting(false);
     }
@@ -210,14 +201,6 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-zinc-900 text-white text-xs font-medium px-4 py-3 rounded-xl shadow-lg border border-zinc-700 animate-in slide-in-from-bottom-2 duration-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
         <div>
@@ -230,7 +213,6 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Lovable-Style Metric Summary Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Metric 1: Total Products */}
         <div className="bg-white border border-zinc-200/80 rounded-xl p-4 shadow-2xs flex items-center justify-between">
