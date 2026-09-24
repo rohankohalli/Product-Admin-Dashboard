@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function TableRowSkeleton({ columns = 6 }) {
+export function TableRowSkeleton({ _columns = 6 }) {
   return (
     <tr className="animate-pulse border-b border-zinc-100">
       {/* Product Image & Title */}
